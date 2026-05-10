@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Данила Шкурпило | Контент-маркетинг</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--red:#E8241A;--dark:#0D0D0D;--card:#161616;--border:#2a2a2a;--text:#F0F0F0;--muted:#888}
+body{background:var(--dark);color:var(--text);font-family:'Montserrat',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px 16px;overflow-x:hidden}
+body::before{content:'';position:fixed;top:-200px;right:-200px;width:500px;height:500px;background:radial-gradient(circle,rgba(232,36,26,0.12) 0%,transparent 70%);pointer-events:none}
+body::after{content:'';position:fixed;bottom:-150px;left:-150px;width:400px;height:400px;background:radial-gradient(circle,rgba(232,36,26,0.07) 0%,transparent 70%);pointer-events:none}
+.container{width:100%;max-width:420px;display:flex;flex-direction:column;align-items:center;animation:fadeUp 0.6s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.header{width:100%;display:flex;flex-direction:column;align-items:center;padding-bottom:28px}
+.avatar-wrap{position:relative;margin-bottom:16px}
+.avatar{width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,#E8241A,#8B0000);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:36px;color:white;border:3px solid var(--red)}
+.online-dot{position:absolute;bottom:4px;right:4px;width:14px;height:14px;background:#22c55e;border-radius:50%;border:2px solid var(--dark);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.7;transform:scale(1.15)}}
+.name{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;color:var(--text);text-align:center;line-height:1;margin-bottom:6px}
+.name span{color:var(--red)}
+.tagline{font-size:12px;color:var(--muted);text-align:center;font-weight:600;text-transform:uppercase;letter-spacing:1.5px}
+.divider{width:100%;height:1px;background:linear-gradient(to right,transparent,var(--border),transparent);margin-bottom:28px}
+.stats{width:100%;display:flex;gap:1px;margin-bottom:28px;background:var(--border);border-radius:12px;overflow:hidden;border:1px solid var(--border)}
+.stat{flex:1;background:var(--card);padding:14px 8px;display:flex;flex-direction:column;align-items:center;gap:3px}
+.stat-num{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--red);letter-spacing:1px;line-height:1}
+.stat-label{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;text-align:center;font-weight:600}
+.buttons{width:100%;display:flex;flex-direction:column;gap:12px;margin-bottom:28px}
+.btn{display:flex;align-items:center;gap:14px;padding:18px 20px;border-radius:12px;text-decoration:none;border:1px solid var(--border);background:var(--card);transition:all 0.2s ease;position:relative;overflow:hidden}
+.btn::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity 0.2s ease}
+.btn:hover::before{opacity:1}
+.btn:hover{transform:translateY(-2px);border-color:#444}
+.btn:active{transform:translateY(0)}
+.btn-free{border-color:rgba(34,197,94,0.3)}
+.btn-free::before{background:linear-gradient(135deg,rgba(34,197,94,0.05),transparent)}
+.btn-free:hover{border-color:rgba(34,197,94,0.6)}
+.btn-guide{border-color:rgba(250,204,21,0.3)}
+.btn-guide::before{background:linear-gradient(135deg,rgba(250,204,21,0.05),transparent)}
+.btn-guide:hover{border-color:rgba(250,204,21,0.6)}
+.btn-paid{border-color:rgba(232,36,26,0.4);background:linear-gradient(135deg,rgba(232,36,26,0.08),var(--card))}
+.btn-paid::before{background:linear-gradient(135deg,rgba(232,36,26,0.1),transparent)}
+.btn-paid:hover{border-color:rgba(232,36,26,0.8)}
+.btn-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;position:relative;z-index:1}
+.btn-free .btn-icon{background:rgba(34,197,94,0.15)}
+.btn-guide .btn-icon{background:rgba(250,204,21,0.15)}
+.btn-paid .btn-icon{background:rgba(232,36,26,0.15)}
+.btn-text{display:flex;flex-direction:column;gap:2px;position:relative;z-index:1}
+.btn-title{font-size:14px;font-weight:700;color:var(--text);letter-spacing:0.3px}
+.btn-sub{font-size:11px;color:var(--muted);font-weight:400}
+.btn-arrow{margin-left:auto;color:var(--muted);font-size:16px;position:relative;z-index:1;transition:transform 0.2s ease,color 0.2s ease}
+.btn:hover .btn-arrow{transform:translateX(3px);color:var(--text)}
+.badge{display:inline-block;font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px;text-transform:uppercase;letter-spacing:0.8px;margin-left:6px;vertical-align:middle}
+.badge-free{background:rgba(34,197,94,0.2);color:#22c55e;border:1px solid rgba(34,197,94,0.3)}
+.badge-yellow{background:rgba(250,204,21,0.2);color:#facc15;border:1px solid rgba(250,204,21,0.3)}
+.badge-red{background:var(--red);color:white}
+.socials{width:100%;margin-bottom:24px}
+.socials-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;font-weight:700;text-align:center;margin-bottom:12px}
+.socials-grid{display:flex;gap:10px;justify-content:center}
+.social-btn{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 10px;background:var(--card);border:1px solid var(--border);border-radius:10px;text-decoration:none;color:var(--muted);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;transition:all 0.2s ease;flex:1}
+.social-btn:hover{border-color:#444;color:var(--text);transform:translateY(-2px)}
+.social-icon{font-size:18px}
+.footer{font-size:10px;color:#444;text-align:center;letter-spacing:1px;text-transform:uppercase;font-weight:600}
+.footer span{color:var(--red)}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="avatar-wrap">
+      <div class="avatar">ДШ</div>
+      <div class="online-dot"></div>
+    </div>
+    <div class="name">Данила <span>Шкурпило</span></div>
+    <div class="tagline">Контент-маркетинг · Батуми</div>
+  </div>
+  <div class="divider"></div>
+  <div class="stats">
+    <div class="stat"><div class="stat-num">5.7М</div><div class="stat-label">просмотров</div></div>
+    <div class="stat"><div class="stat-num">2К+</div><div class="stat-label">подписчиков</div></div>
+    <div class="stat"><div class="stat-num">110</div><div class="stat-label">дней reels</div></div>
+  </div>
+  <div class="buttons">
+    <a href="https://t.me/shkurpilod" class="btn btn-free" target="_blank">
+      <div class="btn-icon">🎁</div>
+      <div class="btn-text">
+        <div class="btn-title">Бесплатный гайд <span class="badge badge-free">FREE</span></div>
+        <div class="btn-sub">Закреп в Telegram канале</div>
+      </div>
+      <div class="btn-arrow">→</div>
+    </a>
+    <a href="https://web.tribute.tg/p/vxb" class="btn btn-guide" target="_blank">
+      <div class="btn-icon">📖</div>
+      <div class="btn-text">
+        <div class="btn-title">Гайд «СТАРТ» <span class="badge badge-yellow">15$</span></div>
+        <div class="btn-sub">От 0 до первых клиентов из блога</div>
+      </div>
+      <div class="btn-arrow">→</div>
+    </a>
+    <a href="https://t.me/shkurpilo.danila" class="btn btn-paid" target="_blank">
+      <div class="btn-icon">🔥</div>
+      <div class="btn-text">
+        <div class="btn-title">Консультация <span class="badge badge-red">100$</span></div>
+        <div class="btn-sub">Разбор блога + стратегия роста</div>
+      </div>
+      <div class="btn-arrow">→</div>
+    </a>
+  </div>
+  <div class="socials">
+    <div class="socials-label">Я в соцсетях</div>
+    <div class="socials-grid">
+      <a href="https://instagram.com/shkurpilo.danila" class="social-btn" target="_blank"><span class="social-icon">📸</span><span>Insta</span></a>
+      <a href="https://tiktok.com/@shkurpilo.danila" class="social-btn" target="_blank"><span class="social-icon">🎵</span><span>TikTok</span></a>
+      <a href="https://t.me/shkurpilod" class="social-btn" target="_blank"><span class="social-icon">✈️</span><span>Telegram</span></a>
+      <a href="https://threads.net/@shkurpilo.danila" class="social-btn" target="_blank"><span class="social-icon">🧵</span><span>Threads</span></a>
+    </div>
+  </div>
+  <div class="footer">Снимаешь контент, а клиентов нет? <span>→ Пиши.</span></div>
+</div>
+</body>
+</html>

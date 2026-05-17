@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Данила Шкурпило</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700;900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c9a96e;
+    --gold-light: #e8c98a;
+    --gold-dim: #8a6e42;
+    --bg: #080808;
+    --bg2: #111010;
+    --bg3: #191716;
+    --border: #2a2520;
+    --text: #e8e0d0;
+    --muted: #6a6058;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.025;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 430px;
+    padding: 48px 22px 64px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .vignette {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 120px;
+    background: linear-gradient(to bottom, #080808, transparent);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  /* AVATAR */
+  .avatar-wrap {
+    position: relative;
+    margin-bottom: 18px;
+    animation: fadeUp 0.5s ease both 0.05s;
+  }
+  .avatar-ring {
+    width: 92px;
+    height: 92px;
+    border-radius: 50%;
+    background: conic-gradient(var(--gold) 0%, var(--gold-light) 30%, var(--gold-dim) 60%, var(--gold) 100%);
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .avatar-inner {
+    width: 86px;
+    height: 86px;
+    border-radius: 50%;
+    background: #1a1815;
+    border: 2px solid var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+  }
+  .online-dot {
+    position: absolute;
+    bottom: 5px; right: 5px;
+    width: 13px; height: 13px;
+    background: #4ade80;
+    border-radius: 50%;
+    border: 2px solid var(--bg);
+  }
+
+  /* NAME */
+  .name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 38px;
+    letter-spacing: 3px;
+    color: var(--text);
+    margin-bottom: 2px;
+    text-align: center;
+    line-height: 1;
+    animation: fadeUp 0.5s ease both 0.12s;
+  }
+  .name-accent { color: var(--gold); }
+
+  .subtitle {
+    font-size: 10px;
+    letter-spacing: 3.5px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    text-align: center;
+    animation: fadeUp 0.5s ease both 0.17s;
+  }
+
+  /* STORY GOALS — replaces stats */
+  .goals {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    margin-bottom: 36px;
+    animation: fadeUp 0.5s ease both 0.22s;
+  }
+
+  .goal-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* progress bar background */
+  .goal-item .progress-bg {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    background: linear-gradient(90deg, rgba(201,169,110,0.07), transparent);
+    border-radius: 12px;
+    pointer-events: none;
+  }
+
+  .goal-emoji {
+    font-size: 22px;
+    flex-shrink: 0;
+    position: relative; z-index: 1;
+  }
+
+  .goal-text {
+    flex: 1;
+    position: relative; z-index: 1;
+  }
+  .goal-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 0.1px;
+    line-height: 1.3;
+  }
+  .goal-sub {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 2px;
+    letter-spacing: 0.3px;
+  }
+
+  /* thin gold left accent */
+  .goal-item::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--gold), var(--gold-dim));
+    border-radius: 2px 0 0 2px;
+  }
+  .goal-item.teal::before {
+    background: linear-gradient(180deg, #5fcfbe, #2a8a7a);
+  }
+  .goal-item.blue::before {
+    background: linear-gradient(180deg, #60a5fa, #2a5fbf);
+  }
+
+  /* SECTION LABEL */
+  .section-label {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .section-label::before,
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .section-label span {
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--muted);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* CTA BUTTONS */
+  .cta-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 36px;
+    animation: fadeUp 0.5s ease both 0.30s;
+  }
+
+  .cta-btn {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 20px;
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--text);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+    border: 1px solid var(--border);
+  }
+  .cta-btn:hover { transform: translateY(-2px); }
+  .cta-btn:active { transform: scale(0.985); }
+
+  .cta-consult {
+    background: linear-gradient(135deg, #141210 0%, #1c1814 100%);
+    border-color: #3a2e1e;
+  }
+  .cta-fish {
+    background: linear-gradient(135deg, #0c1212 0%, #121c1c 100%);
+    border-color: #1a3030;
+  }
+
+  .cta-bar {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 2px;
+    border-radius: 2px 0 0 2px;
+  }
+  .cta-consult .cta-bar { background: linear-gradient(180deg, var(--gold), var(--gold-dim)); }
+  .cta-fish .cta-bar { background: linear-gradient(180deg, #5fcfbe, #2a8a7a); }
+
+  .cta-icon {
+    width: 50px; height: 50px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+    position: relative; z-index: 1;
+  }
+  .cta-consult .cta-icon { background: rgba(201,169,110,0.12); }
+  .cta-fish .cta-icon { background: rgba(95,207,190,0.1); }
+
+  .cta-text { flex: 1; position: relative; z-index: 1; }
+  .cta-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 3px;
+  }
+  .cta-sub {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+  .cta-arrow {
+    font-size: 16px;
+    color: var(--gold-dim);
+    flex-shrink: 0;
+    position: relative; z-index: 1;
+  }
+
+  /* SOCIALS */
+  .socials-wrap {
+    width: 100%;
+    animation: fadeUp 0.5s ease both 0.38s;
+  }
+  .socials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    width: 100%;
+    margin-bottom: 8px;
+  }
+  .socials-grid2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    width: 100%;
+    margin-bottom: 36px;
+  }
+
+  .social-btn {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 11px;
+    padding: 14px 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 8px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .social-btn:hover {
+    background: var(--bg3);
+    color: var(--gold-light);
+    border-color: var(--gold-dim);
+  }
+  .social-icon { font-size: 20px; }
+  .social-yt:hover { color: #f87171; border-color: rgba(248,113,113,0.4); }
+
+  /* FOOTER */
+  .footer-cta {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-align: center;
+    text-transform: uppercase;
+    animation: fadeUp 0.5s ease both 0.44s;
+  }
+  .footer-cta a {
+    color: var(--gold);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+<div class="vignette"></div>
+<div class="container">
+
+  <!-- Avatar -->
+  <div class="avatar-wrap">
+    <div class="avatar-ring">
+      <div class="avatar-inner">👤</div>
+    </div>
+    <div class="online-dot"></div>
+  </div>
+
+  <!-- Name -->
+  <div class="name">Данила <span class="name-accent">Шкурпило</span></div>
+  <div class="subtitle">Контент-маркетинг · Батуми</div>
+
+  <!-- Story Goals -->
+  <div class="goals">
+
+    <div class="goal-item">
+      <div class="progress-bg" style="width:60%"></div>
+      <div class="goal-emoji">🏗️</div>
+      <div class="goal-text">
+        <div class="goal-label">Строю бизнес заново</div>
+        <div class="goal-sub">С нуля · Снимаю всё в реальном времени</div>
+      </div>
+    </div>
+
+    <div class="goal-item">
+      <div class="progress-bg" style="width:45%"></div>
+      <div class="goal-emoji">💸</div>
+      <div class="goal-text">
+        <div class="goal-label">Выхожу из долгов в 30 000$</div>
+        <div class="goal-sub">Иду до 50 000$ · Закрываю долги публично</div>
+      </div>
+    </div>
+
+    <div class="goal-item teal">
+      <div class="progress-bg" style="width:20%; background: linear-gradient(90deg, rgba(95,207,190,0.07), transparent);"></div>
+      <div class="goal-emoji">🏄</div>
+      <div class="goal-text">
+        <div class="goal-label">Коплю на Бали · сёрф</div>
+        <div class="goal-sub">Мечта · Впереди</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CTA -->
+  <div class="section-label"><span>Работа со мной</span></div>
+  <div class="cta-buttons">
+
+    <a class="cta-btn cta-consult"
+       href="https://www.instagram.com/shkurpilo.danila?igsh=MW14MzA4Y25jbzY1aw%3D%3D&utm_source=qr"
+       target="_blank" rel="noopener">
+      <div class="cta-bar"></div>
+      <div class="cta-icon">🔥</div>
+      <div class="cta-text">
+        <div class="cta-title">Обратиться за консультацией</div>
+        <div class="cta-sub">Разбор блога + стратегия роста</div>
+      </div>
+      <div class="cta-arrow">→</div>
+    </a>
+
+    <a class="cta-btn cta-fish"
+       href="https://www.instagram.com/sea_livery?igsh=MWd3Z2ZnM2g4eGpjcg%3D%3D&utm_source=qr"
+       target="_blank" rel="noopener">
+      <div class="cta-bar"></div>
+      <div class="cta-icon">🐟</div>
+      <div class="cta-text">
+        <div class="cta-title">Заказать рыбу в Батуми</div>
+        <div class="cta-sub">Sea Livery — свежая рыба с доставкой</div>
+      </div>
+      <div class="cta-arrow">→</div>
+    </a>
+
+  </div>
+
+  <!-- Socials -->
+  <div class="socials-wrap">
+    <div class="section-label"><span>Я в соцсетях</span></div>
+    <div class="socials-grid">
+      <a class="social-btn"
+         href="https://www.instagram.com/shkurpilo.danila?igsh=MW14MzA4Y25jbzY1aw%3D%3D&utm_source=qr"
+         target="_blank" rel="noopener">
+        <span class="social-icon">📸</span>
+        <span>Insta</span>
+      </a>
+      <a class="social-btn" href="#" target="_blank">
+        <span class="social-icon">🎵</span>
+        <span>TikTok</span>
+      </a>
+      <a class="social-btn" href="#" target="_blank">
+        <span class="social-icon">✈️</span>
+        <span>Telegram</span>
+      </a>
+    </div>
+    <div class="socials-grid2">
+      <a class="social-btn" href="#" target="_blank">
+        <span class="social-icon">🧵</span>
+        <span>Threads</span>
+      </a>
+      <a class="social-btn social-yt" href="#" target="_blank">
+        <span class="social-icon">▶️</span>
+        <span>YouTube</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="footer-cta">
+    Снимаешь контент, а клиентов нет? →
+    <a href="https://www.instagram.com/shkurpilo.danila?igsh=MW14MzA4Y25jbzY1aw%3D%3D&utm_source=qr"
+       target="_blank" rel="noopener">Пиши.</a>
+  </div>
+
+</div>
+</body>
+</html>
